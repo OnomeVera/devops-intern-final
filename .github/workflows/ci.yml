@@ -1,4 +1,3 @@
-
 name: DevOps Intern Final CI/CD
 
 on:
@@ -13,9 +12,6 @@ on:
 
 permissions:
   contents: read
-
-env:
-  IMAGE_NAME: ghcr.io/${{ github.repository }}
 
 jobs:
 
@@ -130,6 +126,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set lowercase image name
+        run: |
+          echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
@@ -141,9 +141,9 @@ jobs:
         run: |
           docker build \
             --build-arg BUILD_SHA=${{ github.sha }} \
-            -t $IMAGE_NAME:${{ github.sha }} \
-            -t $IMAGE_NAME:latest \
+            -t "$IMAGE_NAME:${{ github.sha }}" \
+            -t "$IMAGE_NAME:latest" \
             ./app
 
-          docker push $IMAGE_NAME:${{ github.sha }}
-          docker push $IMAGE_NAME:latest
+          docker push "$IMAGE_NAME:${{ github.sha }}"
+          docker push "$IMAGE_NAME:latest"
