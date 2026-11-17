@@ -1,3 +1,4 @@
+![CI](https://github.com/OnomeVera/devops-intern-final/actions/workflows/ci.yml/badge.svg)
 # DevOps Intern Final Assessment
 
 **Engineer:** Onome Oviero
